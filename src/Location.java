@@ -9,6 +9,7 @@ public class Location extends ProgramObject{
         super(x, y, id);
         Random random = new Random();
         color = new Color(random.nextInt(0,255),random.nextInt(0,255),random.nextInt(0,255));
+        setColor(color);
         this.handler = handler;
     }
 

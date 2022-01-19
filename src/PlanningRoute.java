@@ -15,6 +15,7 @@ public class PlanningRoute extends MouseAdapter {
 
     //variables
     private boolean addingLocation = false;
+    private boolean removingLocation = false;
     private boolean buttonAvailable = true;
     private int locationCounter = 0;
 
@@ -31,10 +32,22 @@ public class PlanningRoute extends MouseAdapter {
 
         // map clicked
         if (mouseOver(mx, my, 0,0, Main.WIDTH, Main.HEIGHT) && main.programState == Main.STATE.PlanningRoute && addingLocation) {
-            System.out.println("you clicked on the map! :D");
             handler.addObject(new Location(getMouseXposition() - 334, getMouseYposition() - 137, ID.Location, handler));
             locationCounter++;
             addingLocation = false;
+        }
+
+        // map clicked
+        if (mouseOver(mx, my, 0,0, Main.WIDTH, Main.HEIGHT) && main.programState == Main.STATE.PlanningRoute && removingLocation) {
+            System.out.println("you clicked on the map! :D");
+            for (int i = 0; i < handler.locations.size(); i++) {
+                ProgramObject location = handler.locations.get(i);
+                //check if the mouseclick is on a location
+                if (mouseOver(mx, my, (int)location.x, (int)location.y, 10, 10)){
+                    handler.removeObject(location);
+                }
+            }
+            removingLocation = false;
         }
 
         // add location button planningroute
@@ -44,8 +57,9 @@ public class PlanningRoute extends MouseAdapter {
         }
 
         // remove location button planningroute
-        if (mouseOver(mx, my, 1070,75, 170, 35) && main.programState == Main.STATE.PlanningRoute && !addingLocation) {
-
+        if (mouseOver(mx, my, 1070,75, 170, 35) && main.programState == Main.STATE.PlanningRoute && !addingLocation && buttonAvailable) {
+            removingLocation = true;
+            buttonAvailable = false;
         }
 
         // home button planningroute
@@ -56,7 +70,7 @@ public class PlanningRoute extends MouseAdapter {
     }
 
     public void tick(){
-        if (!addingLocation && !buttonAvailable){
+        if (!addingLocation && !buttonAvailable && !removingLocation){
             buttonAvailable = true;
         }
     }
@@ -76,7 +90,7 @@ public class PlanningRoute extends MouseAdapter {
         g.drawImage(bufferedImage, 0,0,null);
 
         //add location button
-        if (!addingLocation) {
+        if (!addingLocation && !removingLocation) {
             g.setColor(Color.white);
             g.fillRect(1070, 25, 170, 35);
             g.setColor(Color.black);

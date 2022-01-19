@@ -5,6 +5,7 @@ public abstract class ProgramObject {
     protected float x, y;
     protected float velX, velY;
     protected ID id;
+    protected Color color;
 
     public ProgramObject(float x, float y, ID id){
         this.x = x;
@@ -57,4 +58,12 @@ public abstract class ProgramObject {
     public abstract void tick();
 
     public abstract void render(Graphics g);
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

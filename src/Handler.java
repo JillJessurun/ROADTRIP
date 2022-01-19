@@ -39,7 +39,12 @@ public class Handler {
             }
 
             //draw line between 2 locations
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setStroke(new BasicStroke(3));
+            g.setColor(location1.getColor());
             g.drawLine((int)location1.x + 5, (int)location1.y + 5, (int)location2.x + 5, (int)location2.y + 5);
         }
     }
+
+
 }
