@@ -1,3 +1,5 @@
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.awt.*;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -25,6 +27,7 @@ public class Menu extends MouseAdapter {
     //variables
     private int selectedRoute = 1;
     private String map = "Europe";
+    private String audio = "Back on Track";
 
     //constructor
     public Menu(BufferedImage bufferedImage, Main main, ViewRoutes viewRoutes, BufferedImage map2, PlanningRoute planningRoute, BufferedImage map1, BufferedImage map3, BufferedImage map4, BufferedImage map5, BufferedImage map6) {
@@ -64,6 +67,83 @@ public class Menu extends MouseAdapter {
             selectedRoute++;
             if (selectedRoute > main.routeCounter){
                 selectedRoute = 1;
+            }
+        }
+
+        //track change button menu
+        if (mouseOver(mx, my, 1147,700, 80,25) && main.programState == Main.STATE.Menu) {
+            if (audio.equals("Yo Hé, Yo Hó!")){
+                audio = "Super max!";
+                Main.audioYohemax.stopMusic();
+                try {
+                    Main.audioSupermax.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Super max!")){
+                audio = "Chum Drum Bedrum";
+                Main.audioSupermax.stopMusic();
+                try {
+                    Main.audioWeirdrussian.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Chum Drum Bedrum")){
+                audio = "Animals Balkan Version";
+                Main.audioWeirdrussian.stopMusic();
+                try {
+                    Main.audioAnimals.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Animals Balkan Version")){
+                audio = "Back on Track";
+                Main.audioAnimals.stopMusic();
+                try {
+                    Main.audioBackontrack.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Back on Track")){
+                audio = "Forever Bound";
+                Main.audioBackontrack.stopMusic();
+                try {
+                    Main.audioForeverbound.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Forever Bound")){
+                audio = "Windows error remix";
+                Main.audioForeverbound.stopMusic();
+                try {
+                    Main.audioWindows.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Windows error remix")){
+                audio = "Mine Diamonds";
+                Main.audioWindows.stopMusic();
+                try {
+                    Main.audioMinediamonds.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Mine Diamonds")){
+                audio = "Jellyfish Jam";
+                Main.audioMinediamonds.stopMusic();
+                try {
+                    Main.audioJellyfish.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }else if (audio.equals("Jellyfish Jam")){
+                audio = "Yo Hé, Yo Hó!";
+                Main.audioJellyfish.stopMusic();
+                try {
+                    Main.audioYohemax.startMusic();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
 
@@ -144,7 +224,7 @@ public class Menu extends MouseAdapter {
         //map choosing
         g.setFont(buttonFont2);
         g.drawString(" - change route map - click        to change -", 840,750);
-        g.setColor(Color.orange);
+        g.setColor(Color.green);
         g.drawString("HERE", 1090,750);
         //g.drawRect(1090,730, 50,25);
 
@@ -155,6 +235,16 @@ public class Menu extends MouseAdapter {
         g.setColor(Color.orange);
         g.drawString("HERE", 1085,780);
         //g.drawRect(1085,760, 50,25);
+
+        //music choosing
+        g.setFont(buttonFont2);
+        g.setColor(Color.black);
+
+        g.drawString(" - track \"" + audio + "\" -", 840, 720);
+        g.setColor(Color.magenta);
+        g.drawString("CHANGE", 1150,720);
+        //g.drawRect(1147,700, 80,25);
+
 
         //made by jill jessurun
         g.setFont(madeByJillJessurunFont);
@@ -179,4 +269,13 @@ public class Menu extends MouseAdapter {
             return false;
         }
     }
+
+    public void stopSupermax(){
+        Main.audioSupermax.stopMusic();
+    }
+
+    public void stopYohemax(){
+        Main.audioYohemax.stopMusic();
+    }
+
 }

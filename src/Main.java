@@ -7,7 +7,7 @@ further development:
 - fill in name when adding a location
 - saved as route (number)! in savedpopup
 - when in route view screen, text to inform which route is displayed
-- sound! music!
+- music! when a song finished, it automatically goes to the next song
 - when quitting from planning screen, ask "are you sure?"
 - delete route function
 
@@ -26,7 +26,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main extends Canvas implements Runnable{
 
@@ -41,7 +40,17 @@ public class Main extends Canvas implements Runnable{
     private JFrame frame;
     private File file;
     private File file2;
-    private Scanner scanner;
+
+    //audio
+    public static Audio audioSupermax;
+    public static Audio audioYohemax;
+    public static Audio audioWeirdrussian;
+    public static Audio audioAnimals;
+    public static Audio audioBackontrack;
+    public static Audio audioForeverbound;
+    public static Audio audioWindows;
+    public static Audio audioMinediamonds;
+    public static Audio audioJellyfish;
 
     //variables
     public static final int WIDTH = 1281;
@@ -89,7 +98,7 @@ public class Main extends Canvas implements Runnable{
 
         //images
         imageLoad = loader.loadImage("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Images\\roadtrip.jpg");
-        imageLoad2 = loader.loadImage("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Images\\map.jpg");
+        imageLoad2 = loader.loadImage("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Images\\map1.png");
         imageLoad3 = loader.loadImage("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Images\\map2.png");
         imageLoad4 = loader.loadImage("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Images\\map3.png");
         imageLoad5 = loader.loadImage("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Images\\map4.png");
@@ -135,10 +144,17 @@ public class Main extends Canvas implements Runnable{
                 break;
             }
         }
-        //System.out.println(routeCounter);
 
-        //scanner
-        scanner = new Scanner(file);
+        //audio
+        audioSupermax = new Audio();
+        audioYohemax = new Audio();
+        audioWeirdrussian = new Audio();
+        audioAnimals = new Audio();
+        audioBackontrack = new Audio();
+        audioForeverbound = new Audio();
+        audioWindows = new Audio();
+        audioMinediamonds = new Audio();
+        audioJellyfish = new Audio();
 
         //window
         Window window = new Window(WIDTH, HEIGHT, "ROADTRIP PLANNER", this);
@@ -288,5 +304,30 @@ public class Main extends Canvas implements Runnable{
 
     public static void main(String[] args) throws IOException {
         new Main();
+        audioBackontrack.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\backontrack.wav");
+
+        audioForeverbound.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\foreverbound.wav");
+        audioForeverbound.stopMusic();
+
+        audioYohemax.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\yohemax.wav");
+        audioYohemax.stopMusic();
+
+        audioSupermax.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\supermax.wav");
+        audioSupermax.stopMusic();
+
+        audioWeirdrussian.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\weirdrussian.wav");
+        audioWeirdrussian.stopMusic();
+
+        audioAnimals.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\animals.wav");
+        audioAnimals.stopMusic();
+
+        audioWindows.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\windows.wav");
+        audioWindows.stopMusic();
+
+        audioMinediamonds.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\minediamonds.wav");
+        audioMinediamonds.stopMusic();
+
+        audioJellyfish.playMusic("C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\Audio\\jellyfish.wav");
+        audioJellyfish.stopMusic();
     }
 }

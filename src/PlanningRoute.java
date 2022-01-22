@@ -250,6 +250,12 @@ public class PlanningRoute extends MouseAdapter {
             g.drawString("~ Click on a location to remove it ~", 320,60);
         }
 
+        if (changingColor && !takingSS){
+            g.setColor(Color.black);
+            g.setFont(buttonFont2);
+            g.drawString("~ Click on a location to change the color ~", 260,60);
+        }
+
         if (locationCounter >= 2) {
             handler.drawLines(g);
         }
