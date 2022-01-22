@@ -3,7 +3,7 @@ import java.util.Random;
 
 public class Location extends ProgramObject{
     private Handler handler;
-    private Color color;
+    public Color color;
 
     public Location(float x, float y, ID id, Handler handler) {
         super(x, y, id);

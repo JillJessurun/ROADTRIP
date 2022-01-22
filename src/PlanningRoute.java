@@ -1,9 +1,11 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class PlanningRoute extends MouseAdapter {
@@ -12,34 +14,41 @@ public class PlanningRoute extends MouseAdapter {
     private BufferedImage bufferedImage;
     private Handler handler;
     private Main main;
+    private JFrame frame;
+    private File file;
+    private File file2;
 
     //variables
-    private boolean addingLocation = false;
-    private boolean removingLocation = false;
-    private boolean buttonAvailable = true;
-    private int locationCounter = 0;
+    public boolean addingLocation = false;
+    public boolean removingLocation = false;
+    public boolean changingColor = false;
+    public boolean buttonAvailable = true;
+    public int locationCounter = 0;
+    public boolean takingSS = false;
 
     //constructor
-    public PlanningRoute(BufferedImage bufferedImage, Main main, Handler handler){
+    public PlanningRoute(BufferedImage bufferedImage, Main main, Handler handler, JFrame frame, File file, File file2){
+        this.frame = frame;
         this.bufferedImage = bufferedImage;
         this.main = main;
         this.handler = handler;
+        this.file = file;
+        this.file2 = file2;
     }
 
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
 
-        // map clicked
+        // map clicked adding a location
         if (mouseOver(mx, my, 0,0, Main.WIDTH, Main.HEIGHT) && main.programState == Main.STATE.PlanningRoute && addingLocation) {
             handler.addObject(new Location(getMouseXposition() - 334, getMouseYposition() - 137, ID.Location, handler));
             locationCounter++;
             addingLocation = false;
         }
 
-        // map clicked
+        // map clicked removing a location
         if (mouseOver(mx, my, 0,0, Main.WIDTH, Main.HEIGHT) && main.programState == Main.STATE.PlanningRoute && removingLocation) {
-            System.out.println("you clicked on the map! :D");
             for (int i = 0; i < handler.locations.size(); i++) {
                 ProgramObject location = handler.locations.get(i);
                 //check if the mouseclick is on a location
@@ -48,6 +57,18 @@ public class PlanningRoute extends MouseAdapter {
                 }
             }
             removingLocation = false;
+        }
+
+        // map clicked changing a color
+        if (mouseOver(mx, my, 0,0, Main.WIDTH, Main.HEIGHT) && main.programState == Main.STATE.PlanningRoute && changingColor) {
+            for (int i = 0; i < handler.locations.size(); i++) {
+                ProgramObject location = handler.locations.get(i);
+                //check if the mouseclick is on a location
+                if (mouseOver(mx, my, (int)location.x, (int)location.y, 10, 10)){
+                    handler.changeColorLocation(location);
+                }
+            }
+            changingColor = false;
         }
 
         // add location button planningroute
@@ -62,10 +83,95 @@ public class PlanningRoute extends MouseAdapter {
             buttonAvailable = false;
         }
 
+        // change color button planningroute
+        if (mouseOver(mx, my, 1070, 125, 170, 35) && main.programState == Main.STATE.PlanningRoute && !addingLocation && buttonAvailable) {
+            changingColor = true;
+            buttonAvailable = false;
+        }
+
         // home button planningroute
         if (mouseOver(mx, my, 1070,745, 170, 35) && main.programState == Main.STATE.PlanningRoute && !addingLocation) {
             locationCounter = 0;
+            handler.locations = getNewList();
             main.programState = Main.STATE.Menu;
+        }
+
+        // save roadtrip button planningroute
+        if (mouseOver(mx, my, 30, 25, 170, 35) && main.programState == Main.STATE.PlanningRoute && !addingLocation) {
+
+            takingSS = true;
+
+            //take screenshot
+            Robot robot = null;
+            try {
+                robot = new Robot();
+            } catch (AWTException ex) {
+                ex.printStackTrace();
+            }
+            Point locationFrame = frame.getLocation();
+            Rectangle rect = new Rectangle(locationFrame.x + 10,locationFrame.y + 40,Main.WIDTH -20,Main.HEIGHT -60);
+            assert robot != null;
+            BufferedImage bufferedImage = robot.createScreenCapture(rect);
+
+            main.routeCounter++;
+            String path = "ss" + main.routeCounter + ".png";
+            String fileName = "C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\SavedRouteImages\\" + path;
+            File file = new File(fileName);
+            try {
+                ImageIO.write(bufferedImage, "png", file);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            //save routelist in text file
+            BufferedWriter output = null;
+            try {
+                output = new BufferedWriter(new FileWriter(this.file, true));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                assert output != null;
+                output.newLine();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                output.append("").append(fileName + "\n");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                output.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            //increment routecounter by 1
+            BufferedWriter output2 = null;
+            try {
+                output2 = new BufferedWriter(new FileWriter(this.file2, true));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                assert output2 != null;
+                output2.newLine();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                output2.append("" + main.routeCounter);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            try {
+                output2.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            main.programState = Main.STATE.SavedPopUp;
         }
     }
 
@@ -82,7 +188,7 @@ public class PlanningRoute extends MouseAdapter {
         Font textFont = Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\pc\\IdeaProjects\\FeedFeedFeebas!\\src\\Fonts\\Like Snow.ttf")).deriveFont(35f);
         ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("C:\\Users\\pc\\IdeaProjects\\FeedFeedFeebas!\\src\\Fonts\\Like Snow.ttf")));
         Font buttonFont = new Font("Comic Sans MS", Font.BOLD, 18);
-        Color color = new Color(248, 239, 210);
+        Font buttonFont2 = new Font("Comic Sans MS", Font.BOLD, 36);
         g.setColor(Color.black);
         g.setFont(textFont);
 
@@ -90,7 +196,8 @@ public class PlanningRoute extends MouseAdapter {
         g.drawImage(bufferedImage, 0,0,null);
 
         //add location button
-        if (!addingLocation && !removingLocation) {
+        if (!addingLocation && !removingLocation && !takingSS && !changingColor) {
+            //add location button
             g.setColor(Color.white);
             g.fillRect(1070, 25, 170, 35);
             g.setColor(Color.black);
@@ -106,6 +213,14 @@ public class PlanningRoute extends MouseAdapter {
             g.setFont(buttonFont);
             g.drawString("- remove location", 1080, 98);
 
+            //change color button
+            g.setColor(Color.white);
+            g.fillRect(1070, 125, 170, 35);
+            g.setColor(Color.black);
+            g.drawRect(1070, 125, 170, 35);
+            g.setFont(buttonFont);
+            g.drawString("change color", 1103, 148);
+
             //quit button
             g.setColor(Color.white);
             g.fillRect(1070, 745, 170, 35);
@@ -113,7 +228,28 @@ public class PlanningRoute extends MouseAdapter {
             g.drawRect(1070, 745, 170, 35);
             g.setFont(buttonFont);
             g.drawString("Quit", 1134, 768);
+
+            //save roadtrip button
+            g.setColor(Color.white);
+            g.fillRect(30, 25, 170, 35);
+            g.setColor(Color.black);
+            g.drawRect(30, 25, 170, 35);
+            g.setFont(buttonFont);
+            g.drawString("Save roadtrip", 56, 48);
         }
+
+        if (addingLocation && !takingSS){
+            g.setColor(Color.black);
+            g.setFont(buttonFont2);
+            g.drawString("~ Click on the map to add a location ~", 290,60);
+        }
+
+        if (removingLocation && !takingSS){
+            g.setColor(Color.black);
+            g.setFont(buttonFont2);
+            g.drawString("~ Click on a location to remove it ~", 320,60);
+        }
+
         if (locationCounter >= 2) {
             handler.drawLines(g);
         }
@@ -155,8 +291,11 @@ public class PlanningRoute extends MouseAdapter {
         }
     }
 
-    public Color getRandomColor(){
-        Random random = new Random();
-        return new Color(random.nextInt(0,255),random.nextInt(0,255),random.nextInt(0,255));
+    public LinkedList<ProgramObject> getNewList(){
+        return new LinkedList<>();
+    }
+
+    public void changeMap(BufferedImage map){
+        this.bufferedImage = map;
     }
 }

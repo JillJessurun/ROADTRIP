@@ -1,8 +1,10 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Handler {
-    LinkedList<ProgramObject> locations = new LinkedList<ProgramObject>();
+    LinkedList<ProgramObject> locations = new LinkedList<>();
 
     public void tick(){
         for (int i = 0; i < locations.size(); i++) {
@@ -26,6 +28,11 @@ public class Handler {
         this.locations.remove(object);
     }
 
+    public void changeColorLocation(ProgramObject location){
+        Random random = new Random();
+        location.setColor(new Color(random.nextInt(0,255), random.nextInt(0,255), random.nextInt(0,255)));
+    }
+
     public void drawLines(Graphics g){
         for (int i = 0; i < locations.size(); i++) {
             ProgramObject location1 = locations.get(i);
@@ -45,6 +52,4 @@ public class Handler {
             g.drawLine((int)location1.x + 5, (int)location1.y + 5, (int)location2.x + 5, (int)location2.y + 5);
         }
     }
-
-
 }
