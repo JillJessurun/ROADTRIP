@@ -40,6 +40,7 @@ public class SavedPopUp extends MouseAdapter {
     public void render(Graphics g){
         Font buttonFont = new Font("Comic Sans MS", Font.BOLD, 18);
         Font savedFont = new Font("Comic Sans MS", Font.BOLD, 60);
+        Font routeFont = new Font("Comic Sans MS", Font.BOLD, 30);
         Color color = new Color(113, 255, 0, 76);
 
         //saved box
@@ -48,6 +49,8 @@ public class SavedPopUp extends MouseAdapter {
         g.setColor(Color.black);
         g.setFont(savedFont);
         g.drawString("Saved succesfully!", 360,330);
+        g.setFont(routeFont);
+        g.drawString("Saved as route " + main.routeCounter + "!", 490,390);
 
         //home button
         g.setFont(buttonFont);

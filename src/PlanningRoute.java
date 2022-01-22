@@ -25,6 +25,7 @@ public class PlanningRoute extends MouseAdapter {
     public boolean buttonAvailable = true;
     public int locationCounter = 0;
     public boolean takingSS = false;
+    private boolean buttonsRendered = true;
 
     //constructor
     public PlanningRoute(BufferedImage bufferedImage, Main main, Handler handler, JFrame frame, File file, File file2){
@@ -98,8 +99,13 @@ public class PlanningRoute extends MouseAdapter {
 
         // save roadtrip button planningroute
         if (mouseOver(mx, my, 30, 25, 170, 35) && main.programState == Main.STATE.PlanningRoute && !addingLocation) {
-
             takingSS = true;
+
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
 
             //take screenshot
             Robot robot = null;
@@ -113,6 +119,7 @@ public class PlanningRoute extends MouseAdapter {
             assert robot != null;
             BufferedImage bufferedImage = robot.createScreenCapture(rect);
 
+            //make new file with new name and add the new screenshot to it
             main.routeCounter++;
             String path = "ss" + main.routeCounter + ".png";
             String fileName = "C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\SavedRouteImages\\" + path;
@@ -156,7 +163,9 @@ public class PlanningRoute extends MouseAdapter {
             }
             try {
                 assert output2 != null;
-                output2.newLine();
+                if (main.firstRouteCounter != 0) {
+                    output2.newLine();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

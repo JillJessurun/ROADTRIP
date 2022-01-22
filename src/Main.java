@@ -5,11 +5,12 @@ goal: creating a road trip planning program
 
 further development:
 - fill in name when adding a location
-- saved as route (number)! in savedpopup
-- when in route view screen, text to inform which route is displayed
 - music! when a song finished, it automatically goes to the next song
 - when quitting from planning screen, ask "are you sure?"
 - delete route function
+(- fix problem that with some maps the buttons are visible in the screenshot (i think this is solved now))
+- mail option to mail the bufferedimage route (in viewroutes screen)
+- zoom function
 
 note:
 when removing saved routes update all these spots:
@@ -58,6 +59,7 @@ public class Main extends Canvas implements Runnable{
     private boolean running = true;
     private boolean menuCreated = false;
     public int routeCounter = 0;
+    public int firstRouteCounter = 0;
 
     //images
     private BufferedImage background;
@@ -139,6 +141,7 @@ public class Main extends Canvas implements Runnable{
                 int lineNumber = Integer.parseInt(line.trim());
                 if (lineNumber > routeCounter) {
                     routeCounter = Integer.parseInt(line.trim());
+                    firstRouteCounter = Integer.parseInt(line.trim());
                 }
             }else{
                 break;
@@ -182,6 +185,9 @@ public class Main extends Canvas implements Runnable{
         this.addMouseListener(menu);
         this.addMouseListener(planningRoute);
         this.addMouseListener(viewRoutes);
+
+        //souts
+        System.out.println(routeCounter);
     }
 
     public synchronized void start(){

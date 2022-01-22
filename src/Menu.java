@@ -58,15 +58,20 @@ public class Menu extends MouseAdapter {
 
         //view routes button menu
         if (mouseOver(mx, my, 470,360,305,45) && main.programState == Main.STATE.Menu) {
-            viewRoutes.pathSavedRoute = "C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\SavedRouteImages\\" + "ss" + selectedRoute + ".png";
-            main.programState = Main.STATE.ViewRoutes;
+            if (main.routeCounter != 0) {
+                viewRoutes.pathSavedRoute = "C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\SavedRouteImages\\" + "ss" + selectedRoute + ".png";
+                viewRoutes.selectedRoute = selectedRoute;
+                main.programState = Main.STATE.ViewRoutes;
+            }
         }
 
         //route change button menu
         if (mouseOver(mx, my, 1085,760, 50,25) && main.programState == Main.STATE.Menu) {
-            selectedRoute++;
-            if (selectedRoute > main.routeCounter){
-                selectedRoute = 1;
+            if (main.routeCounter != 0) {
+                selectedRoute++;
+                if (selectedRoute > main.routeCounter) {
+                    selectedRoute = 1;
+                }
             }
         }
 
@@ -216,7 +221,13 @@ public class Menu extends MouseAdapter {
             g.drawString("Map: " + map, 440, 500);
         }
         //g.drawRect(470,460,305,45);
-        g.drawString("View route " + selectedRoute, 470, 400);
+        if (main.routeCounter != 0) {
+            g.drawString("View route " + selectedRoute, 470, 400);
+        }else{
+            g.setColor(Color.gray);
+            g.drawString("View route " + selectedRoute, 470, 400);
+            g.setColor(Color.black);
+        }
         //g.drawRect(470,360,305,45);
         g.drawString("Quit", 565, 600);
         //g.drawRect(562,560,113,45);
@@ -232,8 +243,13 @@ public class Menu extends MouseAdapter {
         g.setFont(buttonFont2);
         g.setColor(Color.black);
         g.drawString(" - route " + selectedRoute + " selected - click        to change -", 840,780);
-        g.setColor(Color.orange);
-        g.drawString("HERE", 1085,780);
+        if (main.routeCounter != 0) {
+            g.setColor(Color.orange);
+            g.drawString("HERE", 1085, 780);
+        }else{
+            g.setColor(Color.gray);
+            g.drawString("HERE", 1085, 780);
+        }
         //g.drawRect(1085,760, 50,25);
 
         //music choosing

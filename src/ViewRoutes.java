@@ -20,6 +20,7 @@ public class ViewRoutes extends MouseAdapter {
     private BufferedImage route;
     private static BufferedImage routeLoad;
     private BufferedImageLoader loader;
+    public int selectedRoute = 0;
 
     //variables
     public String pathSavedRoute = "C:\\Users\\pc\\IdeaProjects\\ROADTRIP\\ROADTRIP\\src\\SavedRouteImages\\ss1.png";
@@ -60,6 +61,8 @@ public class ViewRoutes extends MouseAdapter {
         //setups
         Font madeByJillJessurunFont = new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 16);
         Font buttonFont = new Font("Comic Sans MS", Font.BOLD, 50);
+        Font font = new Font("Comic Sans MS", Font.BOLD, 30);
+        g.setColor(Color.black);
 
         //background
         g.drawImage(bufferedImage, 0,0,null);
@@ -68,10 +71,6 @@ public class ViewRoutes extends MouseAdapter {
         g.drawImage(route,130,60,null);
 
         //button
-        //g.setColor(Color.white);
-        //g.fillRect(542,620,153,65);
-        //g.setColor(Color.black);
-        //g.drawRect(542,620,153,65);
         g.setFont(buttonFont);
         g.drawString("Home", 565, 740);
         //g.drawRect(565, 700,110,45);
@@ -79,6 +78,10 @@ public class ViewRoutes extends MouseAdapter {
         //made by jill jessurun
         g.setFont(madeByJillJessurunFont);
         g.drawString("Version: 6.9 - Jill Jessurun - 1/2022", 20, 780);
+
+        //route
+        g.setFont(font);
+        g.drawString("Route " + selectedRoute, 575, 45);
     }
 
     private boolean mouseOver(int mx, int my, int x, int y, int width, int height) {

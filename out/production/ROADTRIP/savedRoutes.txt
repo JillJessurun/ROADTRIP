@@ -1,7 +1,4 @@
-C:\Users\pc\IdeaProjects\ROADTRIP\ROADTRIP\src\SavedRouteImages\ss1.png
 
-C:\Users\pc\IdeaProjects\ROADTRIP\ROADTRIP\src\SavedRouteImages\ss2.png
+C:\Users\pc\IdeaProjects\ROADTRIP\ROADTRIP\src\SavedRouteImages\ss1.pngss1.png
 
-C:\Users\pc\IdeaProjects\ROADTRIP\ROADTRIP\src\SavedRouteImages\ss3.png
-
-C:\Users\pc\IdeaProjects\ROADTRIP\ROADTRIP\src\SavedRouteImages\ss4.png
+C:\Users\pc\IdeaProjects\ROADTRIP\ROADTRIP\src\SavedRouteImages\ss1.pngss2.png
